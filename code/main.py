@@ -109,7 +109,7 @@ class Game:
                             self.remove_pokemon(answer, 'tails', 'tails', 'yes t')
                         case _:
                             self.typing_print(f'The most common value is {most_common_value}\n')
-                else:
+                elif len(self.available_pokemon) > 0:
                     self.typing_print(f"Hmmm... I think I'm getting closer. Is you're pokemon {list(self.available_pokemon.keys())[0]}?\n")
                     answer = self.get_answer()
                     if answer == 'yes' or answer == 'y':
@@ -120,10 +120,20 @@ class Game:
                             self.available_pokemon = GEN1
                             self.question_counter = 0
                             self.multi_heads_asked = False
-                        else:
+                        elif new_answer == 'no' or new_answer == 'n':
                             self.running = False
                     elif answer == 'no' or answer == 'n':
                         del self.available_pokemon[list(self.available_pokemon.keys())[0]]
+                else:
+                    self.typing_print("I'm sorry it seems I've eliminated all the possibilities.\nYou win this round, want to play again?\n")
+                    answer = self.get_answer()
+                    if answer == 'yes' or answer == 'y':
+                        self.typing_print("Great!! Do you have a new pokemon in mind?\nLet's go!\n")
+                        self.available_pokemon = GEN1
+                        self.question_counter = 0
+                        self.multi_heads_asked = False
+                    elif answer == 'no' or answer == 'n':
+                        self.running = False
                 self.question_counter += 1
             else:   
                 self.typing_print ('Wow, you really stumped me there.\nDo you want to play again?\n')
